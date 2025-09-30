@@ -7,10 +7,13 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-  "test": "vitest run --environment node",
-  "test:watch": "vitest watch --environment node",
-  "lint": "eslint src --ext .ts,.tsx,.js,.jsx",
-  "format": "prettier --write ."
+    "test": "vitest run --environment node",
+    "test:watch": "vitest watch --environment node",
+    "lint": "eslint src --ext .ts,.tsx,.js,.jsx",
+    "format": "prettier --write .",
+    "audit:env": "tsx scripts/audit-env.ts",
+    "precommit": "npm run audit:env",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@solidjs/router": "^0.15.3",

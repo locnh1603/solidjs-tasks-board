@@ -1,6 +1,4 @@
 # Logs
-
-# Logs
 apps/*/logs
 apps/*/*.log
 apps/*/npm-debug.log*
@@ -15,10 +13,19 @@ apps/*/dist
 apps/*/dist-ssr
 apps/*/*.local
 
-# Environment files (ignore all except .env.example)
-apps/*/.env
-apps/*/.env.*
-!apps/*/.env.example
+# Environment variables (monorepo-wide)
+*.env
+*.env.local
+*.env.*.local
+*.env.production
+*.env.development
+!*.env.example
+
+# Other sensitive files (monorepo-wide)
+*.env.server
+*.key
+*.pem
+secrets/
 
 # Editor directories and files
 .vscode/*
