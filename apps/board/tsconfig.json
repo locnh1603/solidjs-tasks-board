@@ -9,7 +9,11 @@
     "isolatedModules": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
-    "types": ["vite/client", "solid-js"]
+    "types": ["vite/client", "solid-js"],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    }
   },
   "include": ["src", "vite.config.js"],
   "exclude": ["node_modules"]

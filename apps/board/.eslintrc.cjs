@@ -6,6 +6,7 @@ module.exports = {
     'eslint:recommended',
     'plugin:solid/typescript',
     'plugin:@typescript-eslint/recommended',
+    'prettier',
   ],
   env: {
     browser: true,
