@@ -1,0 +1,41 @@
+# Logs
+
+# Logs
+apps/*/logs
+apps/*/*.log
+apps/*/npm-debug.log*
+apps/*/yarn-debug.log*
+apps/*/yarn-error.log*
+apps/*/pnpm-debug.log*
+apps/*/lerna-debug.log*
+
+# Build output
+apps/*/node_modules
+apps/*/dist
+apps/*/dist-ssr
+apps/*/*.local
+
+# Environment files (ignore all except .env.example)
+apps/*/.env
+apps/*/.env.*
+!apps/*/.env.example
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# pnpm & monorepo
+pnpm-lock.yaml
+pnpm-debug.log*
+node_modules/
+
+# Turbo
+.turbo/
+turbo.log

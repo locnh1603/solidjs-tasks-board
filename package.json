@@ -1,0 +1,17 @@
+{
+  "name": "solidjs-tasks",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Monorepo for SolidJS Real-Time Collaborative Task Board",
+  "license": "MIT",
+  "packageManager": "pnpm@10.17.1",
+  "scripts": {
+  "build": "turbo run build",
+  "dev": "turbo run dev",
+  "test": "turbo run test",
+  "lint": "turbo run lint"
+  },
+  "devDependencies": {
+    "turbo": "^2.5.8"
+  }
+}

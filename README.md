@@ -1,4 +1,40 @@
-# SolidJS Real-Time Collaborative Task Board
+
+# SolidJS Tasks Monorepo
+
+This is a pnpm monorepo for the SolidJS Real-Time Collaborative Task Board and related apps/packages.
+
+## Monorepo Structure
+
+```
+solidjs-tasks/
+├── apps/
+│   └── board/         # Main SolidJS + Supabase app
+├── package.json       # Monorepo root scripts (Turbo, pnpm)
+├── pnpm-workspace.yaml
+├── turbo.json         # Turbo pipeline config
+└── ...
+```
+
+## Workspace Usage
+
+- Install all dependencies for all workspaces:
+   ```sh
+   pnpm install
+   ```
+- Run all builds/tests/lints in all apps/packages:
+   ```sh
+   pnpm run build
+   pnpm run test
+   pnpm run lint
+   pnpm run format
+   ```
+- Develop a specific app:
+   ```sh
+   cd apps/board
+   pnpm run dev
+   ```
+
+## App Features
 
 ## Overview
 
