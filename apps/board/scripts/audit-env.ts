@@ -6,6 +6,9 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
+// Add Node.js types for process, fs, and path
+/// <reference types="node" />
+
 interface AuditResult {
   file: string;
   issues: string[];
@@ -38,13 +41,13 @@ function auditEnvFile(filePath: string): AuditResult {
   }
   const content = fs.readFileSync(filePath, 'utf-8');
   const lines = content.split('\n');
-  lines.forEach((line, index) => {
+  lines.forEach((line: string, index: number) => {
     const lineNum = index + 1;
     if (!line.trim() || line.trim().startsWith('#')) return;
-    const [key, value] = line.split('=').map(s => s.trim());
+    const [key, value] = line.split('=').map((s: string) => s.trim());
     if (!key || !value) return;
     if (key.startsWith('VITE_')) {
-      SENSITIVE_PATTERNS.forEach(pattern => {
+      SENSITIVE_PATTERNS.forEach((pattern: RegExp) => {
         if (pattern.test(key) || pattern.test(value)) {
           result.issues.push(
             `Line ${lineNum}: Sensitive data with VITE_ prefix - will be exposed to client: ${key}`
@@ -73,7 +76,7 @@ function checkGitignore(): string[] {
     return issues;
   }
   const content = fs.readFileSync(gitignorePath, 'utf-8');
-  ENV_FILES.forEach(file => {
+  ENV_FILES.forEach((file: string) => {
     if (!content.includes(file)) {
       issues.push(`${file} not found in .gitignore`);
     }
@@ -81,29 +84,29 @@ function checkGitignore(): string[] {
   return issues;
 }
 
-function main() {
+function main(): void {
   console.log('🔍 Auditing environment variables...\n');
   let hasIssues = false;
   const gitignoreIssues = checkGitignore();
   if (gitignoreIssues.length > 0) {
     console.log('❌ .gitignore Issues:');
-    gitignoreIssues.forEach(issue => console.log(`   - ${issue}`));
+    gitignoreIssues.forEach((issue: string) => console.log(`   - ${issue}`));
     console.log();
     hasIssues = true;
   }
-  ENV_FILES.forEach(file => {
+  ENV_FILES.forEach((file: string) => {
     const filePath = path.join(process.cwd(), file);
     const result = auditEnvFile(filePath);
     if (result.issues.length > 0 || result.warnings.length > 0) {
       console.log(`📄 ${file}:`);
       if (result.issues.length > 0) {
         console.log('  ❌ Issues:');
-        result.issues.forEach(issue => console.log(`     ${issue}`));
+        result.issues.forEach((issue: string) => console.log(`     ${issue}`));
         hasIssues = true;
       }
       if (result.warnings.length > 0) {
         console.log('  ⚠️  Warnings:');
-        result.warnings.forEach(warning => console.log(`     ${warning}`));
+        result.warnings.forEach((warning: string) => console.log(`     ${warning}`));
       }
       console.log();
     }

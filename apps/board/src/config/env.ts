@@ -46,12 +46,12 @@ class EnvironmentConfig {
   /**
    * Get optional environment variable with default
    */
-  private getOptional(
-    key: keyof ImportMetaEnv,
-    defaultValue: string
-  ): string {
-    return import.meta.env[key] || defaultValue;
-  }
+  // private getOptional(
+  //   key: keyof ImportMetaEnv,
+  //   defaultValue: string
+  // ): string {
+  //   return import.meta.env[key] || defaultValue;
+  // }
 
   /**
    * Parse boolean environment variable
