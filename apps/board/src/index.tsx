@@ -7,11 +7,13 @@ import './index.css';
 
 // Validate environment before rendering
 try {
-	initializeEnvironment();
-	const root = document.getElementById('root');
-	if (!root) throw new Error('Root element not found');
-	render(() => <App />, root);
+  initializeEnvironment();
+  const root = document.getElementById('root');
+  if (!root) {
+    throw new Error('Root element not found');
+  }
+  render(() => <App />, root);
 } catch (error) {
-	console.error('Failed to initialize application:', error);
-	// Error is already displayed by initializeEnvironment in dev mode
+  console.error('Failed to initialize application:', error);
+  // Error is already displayed by initializeEnvironment in dev mode
 }

@@ -19,8 +19,8 @@ export const checkEnvironment = (): void => {
   if (!env.supabase.url) {
     errors.push('VITE_SUPABASE_URL is not set');
   }
-  if (!env.supabase.anonKey) {
-    errors.push('VITE_SUPABASE_ANON_KEY is not set');
+  if (!env.supabase.publishableKey) {
+    errors.push('VITE_SUPABASE_PUBLISHABLE_KEY is not set');
   }
   // Check app configuration
   if (!env.app.name) {
@@ -31,9 +31,9 @@ export const checkEnvironment = (): void => {
   }
   if (errors.length > 0) {
     throw new EnvironmentError(
-      'Missing required environment variables:\n' +
-      errors.map(e => `  - ${e}`).join('\n') +
-      '\n\nPlease check your .env file.'
+      `Missing required environment variables:\n${errors
+        .map((e) => `  - ${e}`)
+        .join('\n')}\n\nPlease check your .env file.`
     );
   }
 };
@@ -43,37 +43,37 @@ export const checkEnvironment = (): void => {
  */
 export const checkSecurityIssues = (): void => {
   const warnings: string[] = [];
-  // Check if service role key is accidentally used
-  if (env.supabase.anonKey.length > 500) {
+  // Check if service role key or legacy JWT is accidentally used
+  if (
+    env.supabase.publishableKey.length > 500 ||
+    env.supabase.publishableKey.startsWith('sb_secret_') ||
+    env.supabase.publishableKey.startsWith('eyJ')
+  ) {
     warnings.push(
-      '⚠️  CRITICAL: Service Role key detected in client configuration!\n' +
-      '   This is a severe security vulnerability.\n' +
-      '   Use the Anon/Public key instead.'
+      '⚠️  CRITICAL: Invalid key detected in client configuration!\n' +
+        '   - Service Role keys (sb_secret_*) are a severe security vulnerability\n' +
+        '   - Legacy JWT keys (eyJ*) are deprecated and no longer supported\n' +
+        '   Use the Publishable key (sb_publishable_*) instead.'
     );
   }
   // Check if debug mode is enabled in production
   if (env.isProduction && env.app.debug) {
     warnings.push(
       '⚠️  WARNING: Debug mode is enabled in production.\n' +
-      '   This may expose sensitive information.'
+        '   This may expose sensitive information.'
     );
   }
   // Check if localhost URL is used in production
   if (env.isProduction && env.app.url.includes('localhost')) {
     warnings.push(
       '⚠️  WARNING: Localhost URL detected in production.\n' +
-      '   Update VITE_APP_URL to your production domain.'
+        '   Update VITE_APP_URL to your production domain.'
     );
   }
   if (warnings.length > 0) {
-    console.error(
-      '🚨 SECURITY WARNINGS:\n' +
-      warnings.join('\n\n')
-    );
+    console.error(`🚨 SECURITY WARNINGS:\n${warnings.join('\n\n')}`);
     if (warnings[0].includes('CRITICAL')) {
-      throw new EnvironmentError(
-        'Critical security issue detected. Please fix before continuing.'
-      );
+      throw new EnvironmentError('Critical security issue detected. Please fix before continuing.');
     }
   }
 };
@@ -86,7 +86,7 @@ export const initializeEnvironment = (): void => {
     checkEnvironment();
     checkSecurityIssues();
     if (env.isDevelopment) {
-      console.log('✅ Environment validation passed');
+      console.info('✅ Environment validation passed');
     }
   } catch (error) {
     console.error('❌ Environment validation failed:', error);

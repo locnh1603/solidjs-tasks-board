@@ -3,13 +3,11 @@
  * Validates and provides typed access to environment variables
  */
 
-
-
 class EnvironmentConfig {
   // Supabase Configuration
   readonly supabase = {
     url: this.getRequired('VITE_SUPABASE_URL'),
-    anonKey: this.getRequired('VITE_SUPABASE_ANON_KEY'),
+    publishableKey: this.getRequired('VITE_SUPABASE_PUBLISHABLE_KEY'),
   };
 
   // App Configuration
@@ -37,7 +35,7 @@ class EnvironmentConfig {
     if (!value) {
       throw new Error(
         `Missing required environment variable: ${key}\n` +
-        `Please check your .env file and ensure ${key} is set.`
+          `Please check your .env file and ensure ${key} is set.`
       );
     }
     return value;
@@ -56,10 +54,7 @@ class EnvironmentConfig {
   /**
    * Parse boolean environment variable
    */
-  private getBoolean(
-    key: keyof ImportMetaEnv,
-    defaultValue: boolean
-  ): boolean {
+  private getBoolean(key: keyof ImportMetaEnv, defaultValue: boolean): boolean {
     const value = import.meta.env[key];
     if (value === undefined || value === '') {
       return defaultValue;
@@ -71,36 +66,55 @@ class EnvironmentConfig {
    * Validate Supabase configuration
    */
   validateSupabase(): void {
-    const { url, anonKey } = this.supabase;
+    const { url, publishableKey } = this.supabase;
     // Validate URL format
     try {
       new URL(url);
     } catch {
       throw new Error(
         `Invalid VITE_SUPABASE_URL: ${url}\n` +
-        `Must be a valid URL (e.g., https://your-project.supabase.co)`
+          `Must be a valid URL (e.g., https://your-project.supabase.co)`
       );
     }
     // Validate URL is Supabase domain
     if (!url.includes('supabase.co') && !url.includes('supabase.in')) {
-      console.warn(
-        `Warning: VITE_SUPABASE_URL doesn't appear to be a Supabase URL: ${url}`
-      );
+      console.warn(`Warning: VITE_SUPABASE_URL doesn't appear to be a Supabase URL: ${url}`);
     }
-    // Validate anon key format (JWT)
-    if (!anonKey.startsWith('eyJ')) {
+
+    // Validate publishable key format (new format only)
+    const isPublishableKey = publishableKey.startsWith('sb_publishable_');
+    const isAnonKey = publishableKey.startsWith('anon_');
+
+    if (!isPublishableKey && !isAnonKey) {
       throw new Error(
-        `Invalid VITE_SUPABASE_ANON_KEY format\n` +
-        `Should start with "eyJ" (JWT format)`
+        `Invalid VITE_SUPABASE_PUBLISHABLE_KEY format\n` +
+          `Should start with "sb_publishable_" (recommended) or "anon_"\n` +
+          `Legacy JWT keys (starting with "eyJ") are no longer supported.\n` +
+          `Please migrate to new publishable keys from your Supabase dashboard.`
       );
     }
+
+    // Log which key type is being used
+    if (this.isDevelopment) {
+      if (isPublishableKey) {
+        console.info('✅ Using new publishable key (recommended)');
+      } else if (isAnonKey) {
+        console.info('📌 Using anon key');
+      }
+    }
+
     // Warn if using service role key (common mistake!)
-    if (anonKey.length > 500) {
+    if (
+      publishableKey.length > 500 ||
+      publishableKey.startsWith('sb_secret_') ||
+      publishableKey.startsWith('eyJ')
+    ) {
       console.error(
         '⚠️  CRITICAL SECURITY WARNING ⚠️\n' +
-        'Your VITE_SUPABASE_ANON_KEY appears to be a Service Role key!\n' +
-        'Service Role keys should NEVER be exposed to the client.\n' +
-        'Please use the Anon/Public key instead.'
+          'Your VITE_SUPABASE_PUBLISHABLE_KEY appears to be invalid!\n' +
+          '- Service Role/Secret keys (sb_secret_*) should NEVER be exposed to the client\n' +
+          '- Legacy JWT keys (eyJ*) are deprecated and no longer supported\n' +
+          'Please use the Publishable key (sb_publishable_*) from your Supabase dashboard.'
       );
     }
   }
@@ -109,22 +123,28 @@ class EnvironmentConfig {
    * Print configuration (safe for debugging)
    */
   printConfig(): void {
-    if (!this.app.debug) return;
+    if (!this.app.debug) {
+      return;
+    }
+    /* eslint-disable no-console */
     console.group('🔧 Environment Configuration');
     console.log('Environment:', this.isProduction ? 'Production' : 'Development');
     console.log('App Name:', this.app.name);
     console.log('App URL:', this.app.url);
     console.log('Supabase URL:', this.supabase.url);
-    console.log('Supabase Key:', this.maskKey(this.supabase.anonKey));
+    console.log('Supabase Key:', this.maskKey(this.supabase.publishableKey));
     console.log('Features:', this.features);
     console.groupEnd();
+    /* eslint-enable no-console */
   }
 
   /**
    * Mask sensitive values for logging
    */
   private maskKey(key: string): string {
-    if (key.length < 20) return '***';
+    if (key.length < 20) {
+      return '***';
+    }
     return `${key.substring(0, 10)}...${key.substring(key.length - 10)}`;
   }
 }
