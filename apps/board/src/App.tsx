@@ -1,7 +1,6 @@
 import { Show } from 'solid-js';
 import { authActions, authState } from './stores/authStore';
 import { LoginForm } from './components/Auth/LoginForm';
-import './App.css';
 
 function App() {
   return (

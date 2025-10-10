@@ -1,5 +1,7 @@
-import { createSignal } from 'solid-js';
+import { Show, createSignal } from 'solid-js';
+import { CircleCheckBig, CircleX } from 'lucide-solid';
 import { authActions, authState } from '../../stores/authStore';
+import { Button } from '../Shared/Button';
 
 export const LoginForm = () => {
   const [email, setEmail] = createSignal('');
@@ -10,21 +12,18 @@ export const LoginForm = () => {
   const [localError, setLocalError] = createSignal<string | null>(null);
   const [successMessage, setSuccessMessage] = createSignal<string | null>(null);
 
-  const validateEmail = (email: string): boolean => {
+  const validateEmail = (input: string): boolean => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
+    return emailRegex.test(input);
   };
 
-  const validatePassword = (password: string): boolean => {
-    return password.length >= 6;
-  };
+  const validatePassword = (input: string): boolean => input.length >= 6;
 
   const handleSubmit = async (e: Event) => {
     e.preventDefault();
     setLocalError(null);
     setSuccessMessage(null);
 
-    // Validation
     if (!validateEmail(email())) {
       setLocalError('Please enter a valid email address');
       return;
@@ -46,7 +45,7 @@ export const LoginForm = () => {
           email(),
           password(),
           username(),
-          fullName() || undefined,
+          fullName() || undefined
         );
 
         if (error) {
@@ -89,68 +88,52 @@ export const LoginForm = () => {
           </h2>
           <p class="mt-2 text-center text-sm text-gray-600">
             {isSignUp() ? 'Already have an account? ' : "Don't have an account? "}
-            <button
-              type="button"
+            <Button
+              variant="ghost"
+              size="sm"
               onClick={toggleMode}
-              class="font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:underline transition"
+              class="!inline !p-0 !h-auto font-medium text-indigo-600 hover:text-indigo-500 hover:bg-transparent underline"
             >
               {isSignUp() ? 'Sign in' : 'Sign up'}
-            </button>
+            </Button>
           </p>
         </div>
 
         {/* Error Message */}
-        {(localError() || authState.error) && (
+        <Show when={localError() ?? authState.error}>
           <div class="rounded-md bg-red-50 p-4 animate-fadeIn">
             <div class="flex">
               <div class="flex-shrink-0">
-                <svg
-                  class="h-5 w-5 text-red-400"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
-                    clip-rule="evenodd"
-                  />
-                </svg>
+                <CircleX class="h-5 w-5 text-red-400" />
               </div>
               <div class="ml-3">
-                <p class="text-sm font-medium text-red-800">{localError() || authState.error}</p>
+                <p class="text-sm font-medium text-red-800">{localError() ?? authState.error}</p>
               </div>
             </div>
           </div>
-        )}
+        </Show>
 
         {/* Success Message */}
-        {successMessage() && (
+        <Show when={successMessage()}>
           <div class="rounded-md bg-green-50 p-4 animate-fadeIn">
             <div class="flex">
               <div class="flex-shrink-0">
-                <svg
-                  class="h-5 w-5 text-green-400"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                    clip-rule="evenodd"
-                  />
-                </svg>
+                <CircleCheckBig class="h-5 w-5 text-green-400" />
               </div>
               <div class="ml-3">
                 <p class="text-sm font-medium text-green-800">{successMessage()}</p>
               </div>
             </div>
           </div>
-        )}
+        </Show>
 
-        <form class="mt-8 space-y-6" onSubmit={handleSubmit}>
-          <div class="rounded-md shadow-sm space-y-4">
+        <form
+          class="mt-8 space-y-6"
+          onSubmit={(e) => {
+            void handleSubmit(e);
+          }}
+        >
+          <div class="space-y-4">
             {/* Email Field */}
             <div>
               <label for="email" class="block text-sm font-medium text-gray-700 mb-1">
@@ -171,7 +154,7 @@ export const LoginForm = () => {
             </div>
 
             {/* Username Field (Sign Up only) */}
-            {isSignUp() && (
+            <Show when={isSignUp()}>
               <div>
                 <label for="username" class="block text-sm font-medium text-gray-700 mb-1">
                   Username
@@ -189,10 +172,10 @@ export const LoginForm = () => {
                   disabled={authState.loading}
                 />
               </div>
-            )}
+            </Show>
 
             {/* Full Name Field (Sign Up only, optional) */}
-            {isSignUp() && (
+            <Show when={isSignUp()}>
               <div>
                 <label for="fullName" class="block text-sm font-medium text-gray-700 mb-1">
                   Full Name (Optional)
@@ -209,7 +192,7 @@ export const LoginForm = () => {
                   disabled={authState.loading}
                 />
               </div>
-            )}
+            </Show>
 
             {/* Password Field */}
             <div>
@@ -232,7 +215,7 @@ export const LoginForm = () => {
           </div>
 
           {/* Remember me / Forgot password (Sign In only) */}
-          {!isSignUp() && (
+          <Show when={!isSignUp()}>
             <div class="flex items-center justify-between">
               <div class="flex items-center">
                 <input
@@ -252,43 +235,20 @@ export const LoginForm = () => {
                 </a>
               </div>
             </div>
-          )}
+          </Show>
 
           {/* Submit Button */}
           <div>
-            <button
+            <Button
               type="submit"
+              variant="primary"
+              size="md"
+              fullWidth
               disabled={authState.loading}
-              class="group relative w-full flex justify-center py-2.5 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all transform hover:scale-[1.02] active:scale-[0.98]"
+              loading={authState.loading}
             >
-              {authState.loading ? (
-                <span class="flex items-center">
-                  <svg
-                    class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                  >
-                    <circle
-                      class="opacity-25"
-                      cx="12"
-                      cy="12"
-                      r="10"
-                      stroke="currentColor"
-                      stroke-width="4"
-                    />
-                    <path
-                      class="opacity-75"
-                      fill="currentColor"
-                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                    />
-                  </svg>
-                  Processing...
-                </span>
-              ) : (
-                <span>{isSignUp() ? 'Create Account' : 'Sign In'}</span>
-              )}
-            </button>
+              {isSignUp() ? 'Create Account' : 'Sign In'}
+            </Button>
           </div>
         </form>
 
