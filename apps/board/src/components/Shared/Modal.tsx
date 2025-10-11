@@ -113,7 +113,7 @@ export const Modal = (props: ModalProps) => {
         >
           {/* Modal Container */}
           <Motion.div
-            class={`bg-white rounded-2xl shadow-2xl w-full ${sizeClasses[size()]} transition-all`}
+            class={`bg-white rounded-2xl shadow-2xl w-full ${sizeClasses[size()]}`}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}

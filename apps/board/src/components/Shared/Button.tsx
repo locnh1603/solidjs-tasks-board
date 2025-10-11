@@ -99,30 +99,31 @@ export const Button = (props: ButtonProps) => {
     'as',
   ]);
 
-  // Base styles applied to all buttons
+  // Base styles applied to all buttons using theme variables
   const baseStyles =
-    'inline-flex items-center justify-center font-medium rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed';
+    'inline-flex items-center justify-center rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed [font-family:var(--font-sans)] [font-weight:var(--font-weight-medium)]';
 
-  // Variant styles
+  // Variant styles using theme color variables
   const variantStyles: Record<ButtonVariant, string> = {
     primary:
-      'bg-indigo-600 text-white hover:bg-indigo-700 active:bg-indigo-800 focus:ring-indigo-500 shadow-sm hover:shadow-md',
+      'bg-primary-600 text-white hover:bg-primary-700 active:bg-primary-800 focus:ring-primary-500 [box-shadow:var(--shadow-sm)] hover:[box-shadow:var(--shadow-md)]',
     secondary:
-      'bg-gray-200 text-gray-900 hover:bg-gray-300 active:bg-gray-400 focus:ring-gray-500 shadow-sm hover:shadow-md',
+      'bg-secondary-200 text-secondary-900 hover:bg-secondary-300 active:bg-secondary-400 focus:ring-secondary-500 [box-shadow:var(--shadow-sm)] hover:[box-shadow:var(--shadow-md)]',
     outline:
-      'border-2 border-gray-300 bg-transparent text-gray-700 hover:bg-gray-50 hover:border-gray-400 active:bg-gray-100 focus:ring-gray-500',
-    ghost: 'bg-transparent text-gray-700 hover:bg-gray-100 active:bg-gray-200 focus:ring-gray-500',
+      'border-2 border-neutral-300 bg-transparent [color:var(--text-base)] hover:bg-neutral-50 hover:border-neutral-400 active:bg-neutral-100 focus:ring-neutral-500',
+    ghost:
+      'bg-transparent [color:var(--text-base)] hover:bg-neutral-100 active:bg-neutral-200 focus:ring-neutral-500',
     danger:
-      'bg-red-600 text-white hover:bg-red-700 active:bg-red-800 focus:ring-red-500 shadow-sm hover:shadow-md',
+      'bg-error-600 text-white hover:bg-error-700 active:bg-error-800 focus:ring-error-500 [box-shadow:var(--shadow-sm)] hover:[box-shadow:var(--shadow-md)]',
     success:
-      'bg-green-600 text-white hover:bg-green-700 active:bg-green-800 focus:ring-green-500 shadow-sm hover:shadow-md',
+      'bg-success-600 text-white hover:bg-success-700 active:bg-success-800 focus:ring-success-500 [box-shadow:var(--shadow-sm)] hover:[box-shadow:var(--shadow-md)]',
   };
 
-  // Size styles
+  // Size styles using theme font-size variables
   const sizeStyles: Record<ButtonSize, string> = {
-    sm: 'text-xs px-3 py-1.5 gap-1.5',
-    md: 'text-sm px-4 py-2.5 gap-2',
-    lg: 'text-base px-6 py-3 gap-2.5',
+    sm: '[font-size:var(--font-size-xs)] px-3 py-1.5 gap-1.5',
+    md: '[font-size:var(--font-size-sm)] px-4 py-2.5 gap-2',
+    lg: '[font-size:var(--font-size-base)] px-6 py-3 gap-2.5',
   };
 
   // Combine all styles
@@ -161,7 +162,13 @@ export const Button = (props: ButtonProps) => {
 
         {/* Loading Spinner */}
         <Show when={local.loading}>
-          <LoaderCircle class="animate-spin flex-shrink-0 h-4 w-4" />
+          <Motion.div
+            animate={{ rotate: 360 }}
+            transition={{ duration: 1, repeat: Infinity, easing: 'linear' }}
+            class="flex-shrink-0"
+          >
+            <LoaderCircle class="h-4 w-4" />
+          </Motion.div>
         </Show>
 
         {/* Button Content */}

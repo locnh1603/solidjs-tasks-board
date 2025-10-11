@@ -14,7 +14,7 @@ export const MainLayout = () => {
   const closeLoginModal = () => setIsLoginModalOpen(false);
 
   return (
-    <div class="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex flex-col">
+    <div class="min-h-screen bg-gradient-to-br from-primary-50 via-primary-100 to-primary-300 flex flex-col [font-family:var(--font-sans)]">
       {/* Header */}
       <Header onLoginClick={openLoginModal} />
 
@@ -26,17 +26,19 @@ export const MainLayout = () => {
             <div class="flex-1 flex items-center justify-center p-8">
               <div class="text-center max-w-md">
                 <div class="mb-6">
-                  <div class="inline-block p-4 bg-indigo-100 rounded-full mb-4">
-                    <FileText class="w-16 h-16 text-indigo-600" />
+                  <div class="inline-block p-4 bg-primary-100 [border-radius:var(--radius-full)] mb-4">
+                    <FileText class="w-16 h-16 text-primary-600" />
                   </div>
                 </div>
-                <h2 class="text-3xl font-bold text-gray-900 mb-4">Welcome to TaskBoard</h2>
-                <p class="text-lg text-gray-600 mb-6">
+                <h2 class="[font-size:var(--font-size-3xl)] [font-weight:var(--font-weight-bold)] [color:var(--text-base)] mb-4">
+                  Welcome to TaskBoard
+                </h2>
+                <p class="[font-size:var(--font-size-lg)] [color:var(--text-muted)] mb-6">
                   Please sign in to access your task board and collaborate with your team.
                 </p>
                 <button
                   onClick={openLoginModal}
-                  class="px-6 py-3 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 transition-colors shadow-md hover:shadow-lg"
+                  class="px-6 py-3 text-white bg-primary-600 [font-weight:var(--font-weight-medium)] [border-radius:var(--radius-lg)] hover:bg-primary-700 [box-shadow:var(--shadow-md)] hover:[box-shadow:var(--shadow-lg)]"
                 >
                   Sign In to Continue
                 </button>

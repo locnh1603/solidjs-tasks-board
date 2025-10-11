@@ -91,16 +91,16 @@ export const LoginModal = (props: LoginModalProps) => {
     <Modal isOpen={props.isOpen} onClose={props.onClose} size="md" showCloseButton={true}>
       <div class="space-y-6">
         <div>
-          <h2 class="text-center text-2xl font-extrabold text-gray-900">
+          <h2 class="text-center [font-size:var(--font-size-2xl)] [font-weight:var(--font-weight-bold)] [color:var(--text-base)]">
             {isSignUp() ? 'Create your account' : 'Sign in to your account'}
           </h2>
-          <p class="mt-2 text-center text-sm text-gray-600">
+          <p class="mt-2 text-center [font-size:var(--font-size-sm)] [color:var(--text-muted)]">
             {isSignUp() ? 'Already have an account? ' : "Don't have an account? "}
             <Button
               variant="ghost"
               size="sm"
               onClick={toggleMode}
-              class="!inline !p-0 !h-auto font-medium text-indigo-600 hover:text-indigo-500 hover:bg-transparent underline"
+              class="!inline !p-0 !h-auto [font-weight:var(--font-weight-medium)] [color:var(--text-primary-on-light)] hover:[color:var(--text-primary-on-light-hover)] hover:bg-transparent underline"
             >
               {isSignUp() ? 'Sign in' : 'Sign up'}
             </Button>
@@ -109,13 +109,15 @@ export const LoginModal = (props: LoginModalProps) => {
 
         {/* Error Message */}
         <Show when={localError() ?? authState.error}>
-          <div class="rounded-md bg-red-50 p-4 animate-fadeIn">
+          <div class="[border-radius:var(--radius-md)] bg-error-50 p-4">
             <div class="flex">
               <div class="flex-shrink-0">
-                <CircleX class="h-5 w-5 text-red-400" />
+                <CircleX class="h-5 w-5 text-error-400" />
               </div>
               <div class="ml-3">
-                <p class="text-sm font-medium text-red-800">{localError() ?? authState.error}</p>
+                <p class="[font-size:var(--font-size-sm)] [font-weight:var(--font-weight-medium)] [color:var(--text-error-on-light)]">
+                  {localError() ?? authState.error}
+                </p>
               </div>
             </div>
           </div>
@@ -123,13 +125,15 @@ export const LoginModal = (props: LoginModalProps) => {
 
         {/* Success Message */}
         <Show when={successMessage()}>
-          <div class="rounded-md bg-green-50 p-4 animate-fadeIn">
+          <div class="[border-radius:var(--radius-md)] bg-success-50 p-4">
             <div class="flex">
               <div class="flex-shrink-0">
-                <CircleCheckBig class="h-5 w-5 text-green-400" />
+                <CircleCheckBig class="h-5 w-5 text-success-400" />
               </div>
               <div class="ml-3">
-                <p class="text-sm font-medium text-green-800">{successMessage()}</p>
+                <p class="[font-size:var(--font-size-sm)] [font-weight:var(--font-weight-medium)] [color:var(--text-success-on-light)]">
+                  {successMessage()}
+                </p>
               </div>
             </div>
           </div>
@@ -144,7 +148,10 @@ export const LoginModal = (props: LoginModalProps) => {
           <div class="space-y-4">
             {/* Email Field */}
             <div>
-              <label for="email" class="block text-sm font-medium text-gray-700 mb-1">
+              <label
+                for="email"
+                class="block [font-size:var(--font-size-sm)] [font-weight:var(--font-weight-medium)] [color:var(--text-base)] mb-1"
+              >
                 Email address
               </label>
               <input
@@ -155,7 +162,7 @@ export const LoginModal = (props: LoginModalProps) => {
                 required
                 value={email()}
                 onInput={(e) => setEmail(e.currentTarget.value)}
-                class="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm transition"
+                class="appearance-none relative block w-full px-3 py-2 border border-neutral-300 [color:var(--text-base)] [border-radius:var(--radius-lg)] placeholder:[color:var(--text-subtle)] focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:z-10 [font-size:var(--font-size-sm)]"
                 placeholder="you@example.com"
                 disabled={authState.loading}
               />
@@ -164,7 +171,10 @@ export const LoginModal = (props: LoginModalProps) => {
             {/* Username Field (Sign Up only) */}
             <Show when={isSignUp()}>
               <div>
-                <label for="username" class="block text-sm font-medium text-gray-700 mb-1">
+                <label
+                  for="username"
+                  class="block [font-size:var(--font-size-sm)] [font-weight:var(--font-weight-medium)] [color:var(--text-base)] mb-1"
+                >
                   Username
                 </label>
                 <input
@@ -175,7 +185,7 @@ export const LoginModal = (props: LoginModalProps) => {
                   required
                   value={username()}
                   onInput={(e) => setUsername(e.currentTarget.value)}
-                  class="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm transition"
+                  class="appearance-none relative block w-full px-3 py-2 border border-neutral-300 [color:var(--text-base)] [border-radius:var(--radius-lg)] placeholder:[color:var(--text-subtle)] focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:z-10 [font-size:var(--font-size-sm)]"
                   placeholder="johndoe"
                   disabled={authState.loading}
                 />
@@ -185,7 +195,10 @@ export const LoginModal = (props: LoginModalProps) => {
             {/* Full Name Field (Sign Up only, optional) */}
             <Show when={isSignUp()}>
               <div>
-                <label for="fullName" class="block text-sm font-medium text-gray-700 mb-1">
+                <label
+                  for="fullName"
+                  class="block [font-size:var(--font-size-sm)] [font-weight:var(--font-weight-medium)] [color:var(--text-base)] mb-1"
+                >
                   Full Name (Optional)
                 </label>
                 <input
@@ -195,7 +208,7 @@ export const LoginModal = (props: LoginModalProps) => {
                   autocomplete="name"
                   value={fullName()}
                   onInput={(e) => setFullName(e.currentTarget.value)}
-                  class="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm transition"
+                  class="appearance-none relative block w-full px-3 py-2 border border-neutral-300 [color:var(--text-base)] [border-radius:var(--radius-lg)] placeholder:[color:var(--text-subtle)] focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:z-10 [font-size:var(--font-size-sm)]"
                   placeholder="John Doe"
                   disabled={authState.loading}
                 />
@@ -204,7 +217,10 @@ export const LoginModal = (props: LoginModalProps) => {
 
             {/* Password Field */}
             <div>
-              <label for="password" class="block text-sm font-medium text-gray-700 mb-1">
+              <label
+                for="password"
+                class="block [font-size:var(--font-size-sm)] [font-weight:var(--font-weight-medium)] [color:var(--text-base)] mb-1"
+              >
                 Password
               </label>
               <input
@@ -215,7 +231,7 @@ export const LoginModal = (props: LoginModalProps) => {
                 required
                 value={password()}
                 onInput={(e) => setPassword(e.currentTarget.value)}
-                class="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm transition"
+                class="appearance-none relative block w-full px-3 py-2 border border-neutral-300 [color:var(--text-base)] [border-radius:var(--radius-lg)] placeholder:[color:var(--text-subtle)] focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:z-10 [font-size:var(--font-size-sm)]"
                 placeholder={isSignUp() ? 'At least 6 characters' : ''}
                 disabled={authState.loading}
               />
@@ -230,15 +246,21 @@ export const LoginModal = (props: LoginModalProps) => {
                   id="remember-me"
                   name="remember-me"
                   type="checkbox"
-                  class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                  class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-neutral-300 [border-radius:var(--radius-sm)]"
                 />
-                <label for="remember-me" class="ml-2 block text-sm text-gray-900">
+                <label
+                  for="remember-me"
+                  class="ml-2 block [font-size:var(--font-size-sm)] [color:var(--text-base)]"
+                >
                   Remember me
                 </label>
               </div>
 
-              <div class="text-sm">
-                <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500 transition">
+              <div class="[font-size:var(--font-size-sm)]">
+                <a
+                  href="#"
+                  class="[font-weight:var(--font-weight-medium)] [color:var(--text-primary-on-light)] hover:[color:var(--text-primary-on-light-hover)]"
+                >
                   Forgot password?
                 </a>
               </div>
@@ -261,14 +283,20 @@ export const LoginModal = (props: LoginModalProps) => {
         </form>
 
         {/* Additional Info */}
-        <div class="text-center text-xs text-gray-500">
+        <div class="text-center [font-size:var(--font-size-xs)] [color:var(--text-subtle)]">
           <p>
             By {isSignUp() ? 'creating an account' : 'signing in'}, you agree to our{' '}
-            <a href="#" class="text-indigo-600 hover:text-indigo-500">
+            <a
+              href="#"
+              class="[color:var(--text-primary-on-light)] hover:[color:var(--text-primary-on-light-hover)]"
+            >
               Terms of Service
             </a>{' '}
             and{' '}
-            <a href="#" class="text-indigo-600 hover:text-indigo-500">
+            <a
+              href="#"
+              class="[color:var(--text-primary-on-light)] hover:[color:var(--text-primary-on-light-hover)]"
+            >
               Privacy Policy
             </a>
           </p>
