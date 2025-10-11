@@ -2,8 +2,14 @@ import { Show, createSignal } from 'solid-js';
 import { CircleCheckBig, CircleX } from 'lucide-solid';
 import { authActions, authState } from '../../stores/authStore';
 import { Button } from '../Shared/Button';
+import { Modal } from '../Shared/Modal';
 
-export const LoginForm = () => {
+export interface LoginModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+export const LoginModal = (props: LoginModalProps) => {
   const [email, setEmail] = createSignal('');
   const [password, setPassword] = createSignal('');
   const [isSignUp, setIsSignUp] = createSignal(false);
@@ -64,8 +70,10 @@ export const LoginForm = () => {
 
         if (error) {
           setLocalError(error);
+        } else {
+          // Close modal on successful login
+          props.onClose();
         }
-        // On success, auth state will update automatically
       }
     } catch (error) {
       setLocalError('An unexpected error occurred. Please try again.');
@@ -80,10 +88,10 @@ export const LoginForm = () => {
   };
 
   return (
-    <div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 px-4">
-      <div class="max-w-md w-full space-y-8 bg-white p-8 rounded-2xl shadow-2xl">
+    <Modal isOpen={props.isOpen} onClose={props.onClose} size="md" showCloseButton={true}>
+      <div class="space-y-6">
         <div>
-          <h2 class="mt-2 text-center text-3xl font-extrabold text-gray-900">
+          <h2 class="text-center text-2xl font-extrabold text-gray-900">
             {isSignUp() ? 'Create your account' : 'Sign in to your account'}
           </h2>
           <p class="mt-2 text-center text-sm text-gray-600">
@@ -128,7 +136,7 @@ export const LoginForm = () => {
         </Show>
 
         <form
-          class="mt-8 space-y-6"
+          class="space-y-4"
           onSubmit={(e) => {
             void handleSubmit(e);
           }}
@@ -253,7 +261,7 @@ export const LoginForm = () => {
         </form>
 
         {/* Additional Info */}
-        <div class="text-center text-xs text-gray-500 mt-4">
+        <div class="text-center text-xs text-gray-500">
           <p>
             By {isSignUp() ? 'creating an account' : 'signing in'}, you agree to our{' '}
             <a href="#" class="text-indigo-600 hover:text-indigo-500">
@@ -266,6 +274,6 @@ export const LoginForm = () => {
           </p>
         </div>
       </div>
-    </div>
+    </Modal>
   );
 };

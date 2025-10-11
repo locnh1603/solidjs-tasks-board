@@ -1,6 +1,7 @@
 import { type JSX, Show, mergeProps, splitProps } from 'solid-js';
 import { Dynamic } from 'solid-js/web';
 import { LoaderCircle } from 'lucide-solid';
+import { Motion } from 'solid-motionone';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger' | 'success';
 export type ButtonSize = 'sm' | 'md' | 'lg';
@@ -100,7 +101,7 @@ export const Button = (props: ButtonProps) => {
 
   // Base styles applied to all buttons
   const baseStyles =
-    'inline-flex items-center justify-center font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed active:scale-95 transform';
+    'inline-flex items-center justify-center font-medium rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed';
 
   // Variant styles
   const variantStyles: Record<ButtonVariant, string> = {
@@ -139,34 +140,41 @@ export const Button = (props: ButtonProps) => {
   const isDisabled = () => local.disabled || local.loading;
 
   return (
-    <Dynamic
-      component={local.as}
-      class={buttonClass()}
-      disabled={isDisabled()}
-      aria-disabled={isDisabled()}
-      aria-busy={local.loading}
-      {...others}
+    <Motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.2 }}
     >
-      {/* Left Icon */}
-      <Show when={local.leftIcon && !local.loading}>
-        <span class="flex-shrink-0">{local.leftIcon}</span>
-      </Show>
+      <Dynamic
+        component={local.as}
+        class={buttonClass()}
+        disabled={isDisabled()}
+        aria-disabled={isDisabled()}
+        aria-busy={local.loading}
+        {...others}
+      >
+        {/* Left Icon */}
+        <Show when={local.leftIcon && !local.loading}>
+          <span class="flex-shrink-0">{local.leftIcon}</span>
+        </Show>
 
-      {/* Loading Spinner */}
-      <Show when={local.loading}>
-        <LoaderCircle class="animate-spin flex-shrink-0 h-4 w-4" />
-      </Show>
+        {/* Loading Spinner */}
+        <Show when={local.loading}>
+          <LoaderCircle class="animate-spin flex-shrink-0 h-4 w-4" />
+        </Show>
 
-      {/* Button Content */}
-      <Show when={local.children}>
-        <span class="flex-1">{local.children}</span>
-      </Show>
+        {/* Button Content */}
+        <Show when={local.children}>
+          <span class="flex-1">{local.children}</span>
+        </Show>
 
-      {/* Right Icon */}
-      <Show when={local.rightIcon && !local.loading}>
-        <span class="flex-shrink-0">{local.rightIcon}</span>
-      </Show>
-    </Dynamic>
+        {/* Right Icon */}
+        <Show when={local.rightIcon && !local.loading}>
+          <span class="flex-shrink-0">{local.rightIcon}</span>
+        </Show>
+      </Dynamic>
+    </Motion.div>
   );
 };
 
