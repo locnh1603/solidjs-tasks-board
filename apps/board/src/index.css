@@ -6,6 +6,3 @@
 /* Import Base Styles */
 @import "./styles/base/reset.css";
 
-/* Import Component Styles */
-@import "./styles/components/link.css";
-

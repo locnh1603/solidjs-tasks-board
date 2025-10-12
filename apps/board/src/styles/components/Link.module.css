@@ -1,0 +1,5 @@
+@reference "../../index.css";
+
+.link {
+  @apply font-medium text-primary-on-light hover:text-primary-on-light-hover transition-colors underline underline-offset-2 decoration-1 hover:decoration-2;
+}

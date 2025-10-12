@@ -19,13 +19,16 @@
     "@solidjs/router": "^0.15.3",
     "@supabase/supabase-js": "^2.58.0",
     "@tailwindcss/vite": "^4.1.13",
+    "@thisbeyond/solid-dnd": "^0.7.5",
     "lucide-solid": "^0.545.0",
+    "luxon": "^3.7.2",
     "rollup-plugin-visualizer": "^6.0.3",
     "solid-js": "^1.9.9",
     "solid-motionone": "^1.0.4",
     "tailwindcss": "^4.1.13"
   },
   "devDependencies": {
+    "@types/luxon": "^3.7.1",
     "@types/node": "^20.11.30",
     "@typescript-eslint/eslint-plugin": "^8.45.0",
     "@typescript-eslint/parser": "^8.45.0",

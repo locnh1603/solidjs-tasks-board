@@ -1,7 +1,9 @@
-import { Show } from 'solid-js';
+import { Show, createEffect, createSignal } from 'solid-js';
 import { LogIn, LogOut, User } from 'lucide-solid';
 import { authActions, authState } from '../../stores/authStore';
 import { Button } from '../Shared/Button';
+import { Dropdown } from '../Shared/Dropdown';
+import { DateTime } from 'luxon';
 
 export interface HeaderProps {
   onLoginClick: () => void;
@@ -11,6 +13,27 @@ export const Header = (props: HeaderProps) => {
   const handleLogout = async () => {
     await authActions.signOut();
   };
+
+  const timezoneOptions = [
+    { label: 'UTC', value: 'UTC' },
+    { label: 'America/New_York', value: 'America/New_York' },
+    { label: 'Europe/London', value: 'Europe/London' },
+    { label: 'Asia/Tokyo', value: 'Asia/Tokyo' },
+    { label: 'Australia/Sydney', value: 'Australia/Sydney' },
+    { label: 'Asia/Ho_Chi_Minh', value: 'Asia/Ho_Chi_Minh' },
+    // Add more as needed
+  ];
+  const [timezone, setTimezone] = createSignal('UTC');
+  const [clock, setClock] = createSignal('');
+
+  createEffect(() => {
+    const updateClock = () => {
+      setClock(DateTime.now().setZone(timezone()).toFormat('HH:mm'));
+    };
+    updateClock();
+    const interval = setInterval(updateClock, 60000);
+    return () => clearInterval(interval);
+  });
 
   return (
     <header class="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-40">
@@ -23,6 +46,16 @@ export const Header = (props: HeaderProps) => {
 
           {/* Auth Section */}
           <div class="flex items-center gap-4">
+            <div class="flex items-center gap-2">
+              <Dropdown
+                options={timezoneOptions}
+                value={timezone()}
+                onChange={setTimezone}
+                placeholder="Select Timezone"
+                size="sm"
+              />
+              <span class="text-xs text-gray-500 font-mono min-w-[40px] text-right">{clock()}</span>
+            </div>
             <Show
               when={authState.user}
               fallback={

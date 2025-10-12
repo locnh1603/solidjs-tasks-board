@@ -1,0 +1,65 @@
+@reference "../../index.css";
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+  min-width: 10rem; /* 160px */
+}
+
+.toggle {
+  @apply w-full flex items-center justify-between px-3 py-2 rounded-lg bg-white border border-neutral-300 shadow-sm text-base font-medium cursor-pointer transition-colors;
+  @apply focus:outline-none focus:ring-2 focus:ring-primary-500;
+}
+
+.selected {
+  @apply text-base text-primary-on-light;
+}
+
+.arrow {
+  @apply ml-2 text-neutral-400 text-xs pointer-events-none;
+}
+
+.menu {
+  @apply absolute left-0 mt-2 w-full bg-white border border-neutral-200 rounded-lg shadow-lg z-10;
+  @apply py-1;
+  max-height: 13.75rem; /* 220px */
+  overflow-y: auto;
+}
+
+.option {
+  @apply px-4 py-2 text-base text-neutral-700 cursor-pointer transition-colors;
+  @apply hover:bg-primary-50 hover:text-primary-700;
+}
+
+.selectedOption {
+  @apply bg-primary-100 text-primary-700 font-semibold;
+}
+
+/* Size Variants */
+.sm {
+  min-width: 7.5rem; /* 120px */
+}
+
+.sm .selected {
+  font-size: var(--font-size-xs);
+}
+
+.sm .arrow {
+  font-size: 0.625rem;
+}
+
+.md {
+  min-width: 10rem; /* 160px */
+}
+
+.md .selected {
+  font-size: var(--font-size-sm);
+}
+
+.lg {
+  min-width: 12.5rem; /* 200px */
+}
+
+.lg .selected {
+  font-size: var(--font-size-base);
+}

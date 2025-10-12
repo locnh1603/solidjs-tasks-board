@@ -5,6 +5,7 @@ import { Button } from '../Shared/Button';
 import { Modal } from '../Shared/Modal';
 import { Input } from '../Shared/Input';
 import { Checkbox } from '../Shared/Checkbox';
+import { Link } from '../Shared/Link';
 import styles from '../../styles/components/LoginModal.module.css';
 import { classList } from '../../utils/classList';
 
@@ -210,9 +211,9 @@ export const LoginModal = (props: LoginModalProps) => {
               />
 
               <div class={styles.forgotPassword}>
-                <a href="#" class="app-link">
+                <Link href="#" class="app-link">
                   Forgot password?
-                </a>
+                </Link>
               </div>
             </div>
           </Show>
@@ -236,13 +237,13 @@ export const LoginModal = (props: LoginModalProps) => {
         <div class={styles.footer}>
           <p>
             By {isSignUp() ? 'creating an account' : 'signing in'}, you agree to our{' '}
-            <a href="#" class="app-link">
+            <Link href="#" class="app-link">
               Terms of Service
-            </a>{' '}
+            </Link>{' '}
             and{' '}
-            <a href="#" class="app-link">
+            <Link href="#" class="app-link">
               Privacy Policy
-            </a>
+            </Link>
           </p>
         </div>
       </div>
