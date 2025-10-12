@@ -1,0 +1,53 @@
+/* Modal Component Styles */
+@reference "../../index.css";
+
+/* Backdrop */
+.backdrop {
+  @apply fixed inset-0 backdrop-blur-sm z-50 flex items-center justify-center p-4;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* Modal Container */
+.container {
+  @apply bg-white shadow-2xl w-full;
+  border-radius: var(--radius-2xl);
+}
+
+/* Size Variants */
+.sm {
+  @apply max-w-sm;
+}
+
+.md {
+  @apply max-w-md;
+}
+
+.lg {
+  @apply max-w-lg;
+}
+
+.xl {
+  @apply max-w-xl;
+}
+
+.full {
+  @apply max-w-full mx-4;
+}
+
+/* Header */
+.header {
+  @apply flex items-center justify-between p-6;
+}
+
+.title {
+  @apply text-xl font-semibold text-gray-900;
+}
+
+.closeButton {
+  @apply ml-auto p-1 rounded-lg;
+}
+
+/* Content */
+.content {
+  @apply p-6;
+}

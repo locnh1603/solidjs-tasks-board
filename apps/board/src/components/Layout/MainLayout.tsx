@@ -6,6 +6,8 @@ import { LoginModal } from '../Auth/LoginModal';
 import { BoardView } from '../Board/BoardView';
 import { ChatWidget } from '../Chat/ChatWidget';
 import { PresenceWidget } from '../Presence/PresenceWidget';
+import { Button } from '../Shared/Button';
+import styles from '../../styles/layouts/MainLayout.module.css';
 
 export const MainLayout = () => {
   const [isLoginModalOpen, setIsLoginModalOpen] = createSignal(false);
@@ -14,34 +16,29 @@ export const MainLayout = () => {
   const closeLoginModal = () => setIsLoginModalOpen(false);
 
   return (
-    <div class="min-h-screen bg-gradient-to-br from-primary-50 via-primary-100 to-primary-300 flex flex-col [font-family:var(--font-sans)]">
+    <div class={styles.layout}>
       {/* Header */}
       <Header onLoginClick={openLoginModal} />
 
       {/* Main Content */}
-      <main class="flex-1 flex flex-col">
+      <main class={styles.main}>
         <Show
           when={authState.user}
           fallback={
-            <div class="flex-1 flex items-center justify-center p-8">
-              <div class="text-center max-w-md">
-                <div class="mb-6">
-                  <div class="inline-block p-4 bg-primary-100 [border-radius:var(--radius-full)] mb-4">
-                    <FileText class="w-16 h-16 text-primary-600" />
+            <div class={styles.welcomeContainer}>
+              <div class={styles.welcomeContent}>
+                <div class={styles.iconWrapper}>
+                  <div class={styles.iconCircle}>
+                    <FileText class={styles.icon} />
                   </div>
                 </div>
-                <h2 class="[font-size:var(--font-size-3xl)] [font-weight:var(--font-weight-bold)] [color:var(--text-base)] mb-4">
-                  Welcome to TaskBoard
-                </h2>
-                <p class="[font-size:var(--font-size-lg)] [color:var(--text-muted)] mb-6">
+                <h2 class={styles.welcomeTitle}>Welcome to TaskBoard</h2>
+                <p class={styles.welcomeText}>
                   Please sign in to access your task board and collaborate with your team.
                 </p>
-                <button
-                  onClick={openLoginModal}
-                  class="px-6 py-3 text-white bg-primary-600 [font-weight:var(--font-weight-medium)] [border-radius:var(--radius-lg)] hover:bg-primary-700 [box-shadow:var(--shadow-md)] hover:[box-shadow:var(--shadow-lg)]"
-                >
+                <Button variant="primary" size="lg" onClick={openLoginModal}>
                   Sign In to Continue
-                </button>
+                </Button>
               </div>
             </div>
           }

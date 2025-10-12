@@ -1,0 +1,128 @@
+/* Input Wrapper */
+@reference "../../index.css";
+
+.wrapper {
+  /* fullWidth handled dynamically */
+}
+
+.wrapperFull {
+  @apply w-full;
+}
+
+/* Label */
+.label {
+  @apply block mb-1;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: rgb(var(--text-base));
+}
+
+.required {
+  @apply ml-0.5;
+  color: rgb(var(--text-error-on-light));
+}
+
+/* Input Base Styles */
+.input {
+  @apply appearance-none relative block px-3 py-2 rounded-lg;
+  @apply focus:outline-none focus:ring-2 focus:z-10;
+  color: rgb(var(--text-base));
+  border-radius: var(--radius-lg);
+  font-size: var(--font-size-sm);
+  font-family: var(--font-sans);
+}
+
+.input::placeholder {
+  color: rgb(var(--text-subtle));
+}
+
+/* Variant Styles */
+.default {
+  @apply border border-neutral-300 hover:border-neutral-400;
+  @apply focus:ring-primary-500 focus:border-primary-500;
+}
+
+.error {
+  @apply border border-error-500;
+  @apply focus:ring-error-500 focus:border-error-500;
+}
+
+.success {
+  @apply border border-success-500;
+  @apply focus:ring-success-500 focus:border-success-500;
+}
+
+/* Size Styles */
+.sm {
+  @apply px-2 py-1.5;
+  font-size: var(--font-size-xs);
+}
+
+.md {
+  @apply px-3 py-2;
+  font-size: var(--font-size-sm);
+}
+
+.lg {
+  @apply px-4 py-3;
+  font-size: var(--font-size-base);
+}
+
+/* Disabled State */
+.disabled {
+  @apply opacity-50 cursor-not-allowed bg-neutral-50;
+}
+
+/* Icon Padding */
+.withLeftIcon {
+  @apply pl-10;
+}
+
+.withRightIcon {
+  @apply pr-10;
+}
+
+.fullWidth {
+  @apply w-full;
+}
+
+/* Input Container */
+.inputContainer {
+  @apply relative;
+}
+
+/* Icon Wrapper */
+.iconWrapper {
+  @apply absolute inset-y-0 flex items-center pointer-events-none;
+}
+
+.iconLeft {
+  @apply left-0 pl-3;
+}
+
+.iconRight {
+  @apply right-0 pr-3;
+}
+
+.icon {
+  @apply h-5 w-5;
+  color: rgb(var(--text-subtle));
+}
+
+/* Messages */
+.message {
+  @apply mt-1;
+  font-size: var(--font-size-xs);
+}
+
+.messageHelper {
+  color: rgb(var(--text-muted));
+}
+
+.messageError {
+  color: rgb(var(--text-error-on-light));
+}
+
+.messageSuccess {
+  color: rgb(var(--text-success-on-light));
+}

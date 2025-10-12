@@ -1,0 +1,53 @@
+/* ErrorBoundary Component Styles */
+@reference "../../index.css";
+
+/* Container */
+.container {
+  @apply min-h-screen flex items-center justify-center px-4;
+  background-color: rgb(var(--color-error-50));
+}
+
+/* Error Card */
+.errorCard {
+  @apply max-w-md w-full rounded-2xl shadow-2xl p-8;
+  background-color: rgb(var(--color-error-100));
+}
+
+/* Content */
+.content {
+  @apply text-center;
+}
+
+/* Icon Circle */
+.iconCircle {
+  @apply inline-block p-4 rounded-full mb-4;
+  background-color: rgb(var(--color-error-100));
+}
+
+.icon {
+  @apply w-16 h-16;
+  color: rgb(var(--color-error-600));
+}
+
+/* Title */
+.title {
+  @apply text-2xl font-bold mb-2;
+  color: rgb(var(--color-error-900));
+}
+
+/* Message */
+.message {
+  @apply mb-6;
+  color: rgb(var(--color-error-800));
+}
+
+/* Error Details Box */
+.errorBox {
+  @apply rounded-lg p-4 mb-6 text-left;
+  background-color: rgb(var(--color-error-50));
+}
+
+.errorText {
+  @apply text-sm font-mono break-all;
+  color: rgb(var(--color-error-700));
+}

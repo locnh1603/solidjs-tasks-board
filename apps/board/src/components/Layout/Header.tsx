@@ -18,9 +18,7 @@ export const Header = (props: HeaderProps) => {
         <div class="flex justify-between items-center h-16">
           {/* Logo / Brand */}
           <div class="flex items-center">
-            <h1 class="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-blue-500 bg-clip-text text-transparent">
-              TaskBoard
-            </h1>
+            <h1 class="text-2xl font-bold bg-clip-text text-transparent">TaskBoard</h1>
           </div>
 
           {/* Auth Section */}

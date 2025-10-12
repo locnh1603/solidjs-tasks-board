@@ -1,6 +1,12 @@
 /// <reference types="vite/client" />
 /// <reference types="solid-js" />
 
+// CSS Modules Type Declaration
+declare module '*.module.css' {
+  const classes: { [key: string]: string };
+  export default classes;
+}
+
 interface ImportMetaEnv {
   // Supabase Configuration
   readonly VITE_SUPABASE_URL: string;

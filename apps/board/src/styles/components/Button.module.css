@@ -1,0 +1,127 @@
+/* Base Button Styles */
+@reference "../../index.css";
+
+.button {
+  @apply inline-flex items-center justify-center rounded-lg;
+  @apply focus:outline-none focus:ring-2 focus:ring-offset-2;
+  @apply disabled:opacity-50 disabled:cursor-not-allowed;
+  font-family: var(--font-sans);
+  font-weight: var(--font-weight-medium);
+  transition: all 0.2s ease-in-out;
+}
+
+/* Link variant has different base */
+.linkBase {
+  @apply inline-flex items-baseline gap-1;
+  @apply focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed;
+  font-family: var(--font-sans);
+  font-weight: var(--font-weight-medium);
+  background: transparent;
+  padding: 0;
+  height: auto;
+}
+
+/* Variant Styles */
+.primary {
+  @apply bg-primary-600 text-white;
+  @apply hover:bg-primary-700 active:bg-primary-800;
+  @apply focus:ring-primary-500;
+  box-shadow: var(--shadow-sm);
+}
+
+.primary:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.secondary {
+  @apply bg-secondary-200 text-secondary-900;
+  @apply hover:bg-secondary-300 active:bg-secondary-400;
+  @apply focus:ring-secondary-500;
+  box-shadow: var(--shadow-sm);
+}
+
+.secondary:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.outline {
+  @apply border-2 border-neutral-300 bg-transparent;
+  @apply hover:bg-neutral-50 hover:border-neutral-400;
+  @apply active:bg-neutral-100 focus:ring-neutral-500;
+  color: rgb(var(--text-base));
+}
+
+.ghost {
+  @apply bg-transparent hover:bg-neutral-100 active:bg-neutral-200;
+  @apply focus:ring-neutral-500;
+  color: rgb(var(--text-base));
+}
+
+.danger {
+  @apply bg-error-600 text-white;
+  @apply hover:bg-error-700 active:bg-error-800;
+  @apply focus:ring-error-500;
+  box-shadow: var(--shadow-sm);
+}
+
+.danger:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.success {
+  @apply bg-success-600 text-white;
+  @apply hover:bg-success-700 active:bg-success-800;
+  @apply focus:ring-success-500;
+  box-shadow: var(--shadow-sm);
+}
+
+.success:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.link {
+  @apply bg-transparent p-0 underline decoration-1 underline-offset-2;
+  @apply hover:decoration-2;
+  color: rgb(var(--text-primary-on-light));
+  height: auto;
+}
+
+.link:hover {
+  color: rgb(var(--text-primary-on-light-hover));
+}
+
+.link:active {
+  color: rgb(var(--text-primary-on-light-active));
+}
+
+/* Size Styles */
+.sm {
+  @apply px-3 py-1.5 gap-1.5;
+  font-size: var(--font-size-xs);
+}
+
+.md {
+  @apply px-4 py-2.5 gap-2;
+  font-size: var(--font-size-sm);
+}
+
+.lg {
+  @apply px-6 py-3 gap-2.5;
+  font-size: var(--font-size-base);
+}
+
+/* Modifiers */
+.fullWidth {
+  @apply w-full;
+}
+
+/* Icon Containers */
+.iconLeft,
+.iconRight,
+.spinner {
+  @apply flex-shrink-0;
+}
+
+.content {
+  @apply flex-1;
+}

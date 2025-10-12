@@ -1,0 +1,3 @@
+.app-link {
+  @apply font-medium text-primary-on-light hover:text-primary-on-light-hover transition-colors;
+}

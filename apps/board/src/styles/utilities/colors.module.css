@@ -1,0 +1,62 @@
+/* Background Colors - Primary */
+@reference "../../index.css";
+
+.bgPrimary50 {
+  background-color: rgb(var(--color-primary-50));
+}
+
+.bgPrimary100 {
+  background-color: rgb(var(--color-primary-100));
+}
+
+.bgPrimary200 {
+  background-color: rgb(var(--color-primary-200));
+}
+
+/* Background Colors - Error/Danger */
+.bgError50 {
+  background-color: rgb(var(--color-error-50));
+}
+
+.bgError100 {
+  background-color: rgb(var(--color-error-100));
+}
+
+/* Background Colors - Success */
+.bgSuccess50 {
+  background-color: rgb(var(--color-success-50));
+}
+
+.bgSuccess100 {
+  background-color: rgb(var(--color-success-100));
+}
+
+/* Background Colors - Warning */
+.bgWarning50 {
+  background-color: rgb(var(--color-warning-50));
+}
+
+.bgWarning100 {
+  background-color: rgb(var(--color-warning-100));
+}
+
+/* Border Radius from Theme */
+.roundedSm {
+  border-radius: var(--radius-sm);
+}
+
+.roundedMd {
+  border-radius: var(--radius-md);
+}
+
+.roundedLg {
+  border-radius: var(--radius-lg);
+}
+
+.roundedXl {
+  border-radius: var(--radius-xl);
+}
+
+.roundedFull {
+  border-radius: var(--radius-full);
+}

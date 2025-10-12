@@ -1,0 +1,98 @@
+/* LoginModal Component Styles */
+@reference "../../index.css";
+
+/* Content Container */
+.content {
+  @apply space-y-6;
+}
+
+/* Header Section */
+.header {
+  /* Container for title and subtitle */
+}
+
+.title {
+  @apply text-center;
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--text-base);
+}
+
+.subtitle {
+  @apply mt-2 text-center flex flex-row justify-center;
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+}
+
+/* Alert Messages */
+.alert {
+  @apply p-4 flex;
+  border-radius: var(--radius-md);
+}
+
+.alertError {
+  @apply bg-error-50;
+}
+
+.alertSuccess {
+  @apply bg-success-50;
+}
+
+.alertIcon {
+  @apply flex-shrink-0;
+}
+
+.alertIconError {
+  @apply h-5 w-5 text-error-400;
+}
+
+.alertIconSuccess {
+  @apply h-5 w-5 text-success-400;
+}
+
+.alertContent {
+  @apply ml-3;
+}
+
+.alertText {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+}
+
+.alertTextError {
+  color: var(--text-error-on-light);
+}
+
+.alertTextSuccess {
+  color: var(--text-success-on-light);
+}
+
+/* Form */
+.form {
+  @apply space-y-4;
+}
+
+.formFields {
+  @apply space-y-4;
+}
+
+/* Remember Me / Forgot Password Row */
+.rememberRow {
+  @apply flex items-center justify-between;
+}
+
+.forgotPassword {
+  font-size: var(--font-size-sm);
+}
+
+/* Submit Button Container */
+.submitContainer {
+  /* Just a wrapper div */
+}
+
+/* Footer */
+.footer {
+  @apply text-center;
+  font-size: var(--font-size-xs);
+  color: var(--text-subtle);
+}

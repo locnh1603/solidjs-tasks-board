@@ -3,6 +3,10 @@ import { CircleCheckBig, CircleX } from 'lucide-solid';
 import { authActions, authState } from '../../stores/authStore';
 import { Button } from '../Shared/Button';
 import { Modal } from '../Shared/Modal';
+import { Input } from '../Shared/Input';
+import { Checkbox } from '../Shared/Checkbox';
+import styles from '../../styles/components/LoginModal.module.css';
+import { classList } from '../../utils/classList';
 
 export interface LoginModalProps {
   isOpen: boolean;
@@ -89,19 +93,14 @@ export const LoginModal = (props: LoginModalProps) => {
 
   return (
     <Modal isOpen={props.isOpen} onClose={props.onClose} size="md" showCloseButton={true}>
-      <div class="space-y-6">
-        <div>
-          <h2 class="text-center [font-size:var(--font-size-2xl)] [font-weight:var(--font-weight-bold)] [color:var(--text-base)]">
+      <div class={styles.content}>
+        <div class={styles.header}>
+          <h2 class={styles.title}>
             {isSignUp() ? 'Create your account' : 'Sign in to your account'}
           </h2>
-          <p class="mt-2 text-center [font-size:var(--font-size-sm)] [color:var(--text-muted)]">
+          <p class={styles.subtitle}>
             {isSignUp() ? 'Already have an account? ' : "Don't have an account? "}
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={toggleMode}
-              class="!inline !p-0 !h-auto [font-weight:var(--font-weight-medium)] [color:var(--text-primary-on-light)] hover:[color:var(--text-primary-on-light-hover)] hover:bg-transparent underline"
-            >
+            <Button variant="link" onClick={toggleMode}>
               {isSignUp() ? 'Sign in' : 'Sign up'}
             </Button>
           </p>
@@ -109,158 +108,109 @@ export const LoginModal = (props: LoginModalProps) => {
 
         {/* Error Message */}
         <Show when={localError() ?? authState.error}>
-          <div class="[border-radius:var(--radius-md)] bg-error-50 p-4">
-            <div class="flex">
-              <div class="flex-shrink-0">
-                <CircleX class="h-5 w-5 text-error-400" />
-              </div>
-              <div class="ml-3">
-                <p class="[font-size:var(--font-size-sm)] [font-weight:var(--font-weight-medium)] [color:var(--text-error-on-light)]">
-                  {localError() ?? authState.error}
-                </p>
-              </div>
+          <div class={classList(styles.alert, styles.alertError)}>
+            <div class={styles.alertIcon}>
+              <CircleX class={styles.alertIconError} />
+            </div>
+            <div class={styles.alertContent}>
+              <p class={classList(styles.alertText, styles.alertTextError)}>
+                {localError() ?? authState.error}
+              </p>
             </div>
           </div>
         </Show>
 
         {/* Success Message */}
         <Show when={successMessage()}>
-          <div class="[border-radius:var(--radius-md)] bg-success-50 p-4">
-            <div class="flex">
-              <div class="flex-shrink-0">
-                <CircleCheckBig class="h-5 w-5 text-success-400" />
-              </div>
-              <div class="ml-3">
-                <p class="[font-size:var(--font-size-sm)] [font-weight:var(--font-weight-medium)] [color:var(--text-success-on-light)]">
-                  {successMessage()}
-                </p>
-              </div>
+          <div class={classList(styles.alert, styles.alertSuccess)}>
+            <div class={styles.alertIcon}>
+              <CircleCheckBig class={styles.alertIconSuccess} />
+            </div>
+            <div class={styles.alertContent}>
+              <p class={classList(styles.alertText, styles.alertTextSuccess)}>{successMessage()}</p>
             </div>
           </div>
         </Show>
 
         <form
-          class="space-y-4"
+          class={styles.form}
           onSubmit={(e) => {
             void handleSubmit(e);
           }}
         >
-          <div class="space-y-4">
+          <div class={styles.formFields}>
             {/* Email Field */}
-            <div>
-              <label
-                for="email"
-                class="block [font-size:var(--font-size-sm)] [font-weight:var(--font-weight-medium)] [color:var(--text-base)] mb-1"
-              >
-                Email address
-              </label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                autocomplete="email"
-                required
-                value={email()}
-                onInput={(e) => setEmail(e.currentTarget.value)}
-                class="appearance-none relative block w-full px-3 py-2 border border-neutral-300 [color:var(--text-base)] [border-radius:var(--radius-lg)] placeholder:[color:var(--text-subtle)] focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:z-10 [font-size:var(--font-size-sm)]"
-                placeholder="you@example.com"
-                disabled={authState.loading}
-              />
-            </div>
+            <Input
+              id="email"
+              name="email"
+              type="email"
+              label="Email address"
+              placeholder="you@example.com"
+              autocomplete="email"
+              required
+              value={email()}
+              onInput={(e) => setEmail(e.currentTarget.value)}
+              disabled={authState.loading}
+            />
 
             {/* Username Field (Sign Up only) */}
             <Show when={isSignUp()}>
-              <div>
-                <label
-                  for="username"
-                  class="block [font-size:var(--font-size-sm)] [font-weight:var(--font-weight-medium)] [color:var(--text-base)] mb-1"
-                >
-                  Username
-                </label>
-                <input
-                  id="username"
-                  name="username"
-                  type="text"
-                  autocomplete="username"
-                  required
-                  value={username()}
-                  onInput={(e) => setUsername(e.currentTarget.value)}
-                  class="appearance-none relative block w-full px-3 py-2 border border-neutral-300 [color:var(--text-base)] [border-radius:var(--radius-lg)] placeholder:[color:var(--text-subtle)] focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:z-10 [font-size:var(--font-size-sm)]"
-                  placeholder="johndoe"
-                  disabled={authState.loading}
-                />
-              </div>
+              <Input
+                id="username"
+                name="username"
+                type="text"
+                label="Username"
+                placeholder="johndoe"
+                autocomplete="username"
+                required
+                value={username()}
+                onInput={(e) => setUsername(e.currentTarget.value)}
+                disabled={authState.loading}
+              />
             </Show>
 
             {/* Full Name Field (Sign Up only, optional) */}
             <Show when={isSignUp()}>
-              <div>
-                <label
-                  for="fullName"
-                  class="block [font-size:var(--font-size-sm)] [font-weight:var(--font-weight-medium)] [color:var(--text-base)] mb-1"
-                >
-                  Full Name (Optional)
-                </label>
-                <input
-                  id="fullName"
-                  name="fullName"
-                  type="text"
-                  autocomplete="name"
-                  value={fullName()}
-                  onInput={(e) => setFullName(e.currentTarget.value)}
-                  class="appearance-none relative block w-full px-3 py-2 border border-neutral-300 [color:var(--text-base)] [border-radius:var(--radius-lg)] placeholder:[color:var(--text-subtle)] focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:z-10 [font-size:var(--font-size-sm)]"
-                  placeholder="John Doe"
-                  disabled={authState.loading}
-                />
-              </div>
+              <Input
+                id="fullName"
+                name="fullName"
+                type="text"
+                label="Full Name (Optional)"
+                placeholder="John Doe"
+                autocomplete="name"
+                value={fullName()}
+                onInput={(e) => setFullName(e.currentTarget.value)}
+                disabled={authState.loading}
+              />
             </Show>
 
             {/* Password Field */}
-            <div>
-              <label
-                for="password"
-                class="block [font-size:var(--font-size-sm)] [font-weight:var(--font-weight-medium)] [color:var(--text-base)] mb-1"
-              >
-                Password
-              </label>
-              <input
-                id="password"
-                name="password"
-                type="password"
-                autocomplete={isSignUp() ? 'new-password' : 'current-password'}
-                required
-                value={password()}
-                onInput={(e) => setPassword(e.currentTarget.value)}
-                class="appearance-none relative block w-full px-3 py-2 border border-neutral-300 [color:var(--text-base)] [border-radius:var(--radius-lg)] placeholder:[color:var(--text-subtle)] focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:z-10 [font-size:var(--font-size-sm)]"
-                placeholder={isSignUp() ? 'At least 6 characters' : ''}
-                disabled={authState.loading}
-              />
-            </div>
+            <Input
+              id="password"
+              name="password"
+              type="password"
+              label="Password"
+              placeholder={isSignUp() ? 'At least 6 characters' : ''}
+              autocomplete={isSignUp() ? 'new-password' : 'current-password'}
+              required
+              value={password()}
+              onInput={(e) => setPassword(e.currentTarget.value)}
+              disabled={authState.loading}
+            />
           </div>
 
           {/* Remember me / Forgot password (Sign In only) */}
           <Show when={!isSignUp()}>
-            <div class="flex items-center justify-between">
-              <div class="flex items-center">
-                <input
-                  id="remember-me"
-                  name="remember-me"
-                  type="checkbox"
-                  class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-neutral-300 [border-radius:var(--radius-sm)]"
-                />
-                <label
-                  for="remember-me"
-                  class="ml-2 block [font-size:var(--font-size-sm)] [color:var(--text-base)]"
-                >
-                  Remember me
-                </label>
-              </div>
+            <div class={styles.rememberRow}>
+              <Checkbox
+                id="remember-me"
+                name="remember-me"
+                label="Remember me"
+                disabled={authState.loading}
+              />
 
-              <div class="[font-size:var(--font-size-sm)]">
-                <a
-                  href="#"
-                  class="[font-weight:var(--font-weight-medium)] [color:var(--text-primary-on-light)] hover:[color:var(--text-primary-on-light-hover)]"
-                >
+              <div class={styles.forgotPassword}>
+                <a href="#" class="app-link">
                   Forgot password?
                 </a>
               </div>
@@ -268,7 +218,7 @@ export const LoginModal = (props: LoginModalProps) => {
           </Show>
 
           {/* Submit Button */}
-          <div>
+          <div class={styles.submitContainer}>
             <Button
               type="submit"
               variant="primary"
@@ -283,20 +233,14 @@ export const LoginModal = (props: LoginModalProps) => {
         </form>
 
         {/* Additional Info */}
-        <div class="text-center [font-size:var(--font-size-xs)] [color:var(--text-subtle)]">
+        <div class={styles.footer}>
           <p>
             By {isSignUp() ? 'creating an account' : 'signing in'}, you agree to our{' '}
-            <a
-              href="#"
-              class="[color:var(--text-primary-on-light)] hover:[color:var(--text-primary-on-light-hover)]"
-            >
+            <a href="#" class="app-link">
               Terms of Service
             </a>{' '}
             and{' '}
-            <a
-              href="#"
-              class="[color:var(--text-primary-on-light)] hover:[color:var(--text-primary-on-light-hover)]"
-            >
+            <a href="#" class="app-link">
               Privacy Policy
             </a>
           </p>

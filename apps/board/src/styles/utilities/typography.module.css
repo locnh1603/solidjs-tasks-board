@@ -1,0 +1,89 @@
+/* Typography Utilities - Font Colors */
+@reference "../../index.css";
+
+.textBase {
+  color: rgb(var(--text-base));
+}
+
+.textMuted {
+  color: rgb(var(--text-muted));
+}
+
+.textSubtle {
+  color: rgb(var(--text-subtle));
+}
+
+.textPrimary {
+  color: rgb(var(--text-primary-on-light));
+}
+
+.textError {
+  color: rgb(var(--text-error-on-light));
+}
+
+.textSuccess {
+  color: rgb(var(--text-success-on-light));
+}
+
+/* Font Sizes */
+.fontXs {
+  font-size: var(--font-size-xs);
+}
+
+.fontSm {
+  font-size: var(--font-size-sm);
+}
+
+.fontBase {
+  font-size: var(--font-size-base);
+}
+
+.fontLg {
+  font-size: var(--font-size-lg);
+}
+
+.fontXl {
+  font-size: var(--font-size-xl);
+}
+
+.font2xl {
+  font-size: var(--font-size-2xl);
+}
+
+.font3xl {
+  font-size: var(--font-size-3xl);
+}
+
+.font4xl {
+  font-size: var(--font-size-4xl);
+}
+
+/* Font Weights */
+.fontNormal {
+  font-weight: var(--font-weight-normal);
+}
+
+.fontMedium {
+  font-weight: var(--font-weight-medium);
+}
+
+.fontSemibold {
+  font-weight: var(--font-weight-semibold);
+}
+
+.fontBold {
+  font-weight: var(--font-weight-bold);
+}
+
+/* Line Heights */
+.lineHeightTight {
+  line-height: var(--line-height-tight);
+}
+
+.lineHeightNormal {
+  line-height: var(--line-height-normal);
+}
+
+.lineHeightRelaxed {
+  line-height: var(--line-height-relaxed);
+}

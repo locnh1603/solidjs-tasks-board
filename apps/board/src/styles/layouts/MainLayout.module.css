@@ -1,0 +1,49 @@
+/* MainLayout Component Styles */
+@reference "../../index.css";
+
+/* Layout Container */
+.layout {
+  @apply min-h-screen flex flex-col;
+  @apply bg-gradient-to-br from-primary-50 via-primary-100 to-primary-300;
+  font-family: var(--font-sans);
+}
+
+/* Main Content Area */
+.main {
+  @apply flex-1 flex flex-col;
+}
+
+/* Unauthenticated Welcome Section */
+.welcomeContainer {
+  @apply flex-1 flex items-center justify-center p-8;
+}
+
+.welcomeContent {
+  @apply text-center max-w-md;
+}
+
+.iconWrapper {
+  @apply mb-6;
+}
+
+.iconCircle {
+  @apply inline-block p-4 bg-primary-100 mb-4;
+  border-radius: var(--radius-full);
+}
+
+.icon {
+  @apply w-16 h-16 text-primary-600;
+}
+
+.welcomeTitle {
+  @apply mb-4;
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--text-base);
+}
+
+.welcomeText {
+  @apply mb-6;
+  font-size: var(--font-size-lg);
+  color: var(--text-muted);
+}

@@ -1,8 +1,11 @@
 /* Import Theme Variables */
-@import "./assets/styles/theme/theme.css";
+@import "./styles/theme/theme.css";
 
 @import "tailwindcss";
 
 /* Import Base Styles */
-@import "./assets/styles/base/reset.css";
+@import "./styles/base/reset.css";
+
+/* Import Component Styles */
+@import "./styles/components/link.css";
 
