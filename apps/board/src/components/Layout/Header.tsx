@@ -15,12 +15,12 @@ export const Header = (props: HeaderProps) => {
   };
 
   const timezoneOptions = [
-    { label: 'UTC', value: 'UTC' },
-    { label: 'America/New_York', value: 'America/New_York' },
-    { label: 'Europe/London', value: 'Europe/London' },
-    { label: 'Asia/Tokyo', value: 'Asia/Tokyo' },
-    { label: 'Australia/Sydney', value: 'Australia/Sydney' },
-    { label: 'Asia/Ho_Chi_Minh', value: 'Asia/Ho_Chi_Minh' },
+    { label: 'UTC+0', value: 'UTC' },
+    { label: 'UTC-5', value: 'America/New_York' },
+    { label: 'UTC+0', value: 'Europe/London' },
+    { label: 'UTC+9', value: 'Asia/Tokyo' },
+    { label: 'UTC+11', value: 'Australia/Sydney' },
+    { label: 'UTC+7', value: 'Asia/Ho_Chi_Minh' },
     // Add more as needed
   ];
   const [timezone, setTimezone] = createSignal('UTC');

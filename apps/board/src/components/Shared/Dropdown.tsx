@@ -1,6 +1,7 @@
 import { For, Show, createEffect, createSignal } from 'solid-js';
 import styles from '../../styles/components/Dropdown.module.css';
 import { classList } from '../../utils/classList';
+import { useClickOutside } from '../../hooks/useClickOutside';
 import { Button } from './Button';
 
 export interface DropdownOption {
@@ -22,11 +23,22 @@ export interface DropdownProps {
 export const Dropdown = (props: DropdownProps) => {
   const [open, setOpen] = createSignal(false);
   const [selected, setSelected] = createSignal('');
+  let dropdownRef: HTMLDivElement | undefined;
 
   createEffect(() => {
     if (props.value !== undefined) {
       setSelected(props.value);
     }
+  });
+
+  // Close dropdown when clicking outside
+  useClickOutside({
+    refs: () => dropdownRef,
+    onClickOutside: () => {
+      if (open()) {
+        setOpen(false);
+      }
+    },
   });
 
   const handleSelect = (value: string) => {
@@ -36,7 +48,7 @@ export const Dropdown = (props: DropdownProps) => {
   };
 
   return (
-    <div class={classList(styles.dropdown, props.class)}>
+    <div ref={dropdownRef} class={classList(styles.dropdown, props.class)}>
       <Button
         type="button"
         class={classList(styles.toggle, styles[props.size ?? 'lg'])}

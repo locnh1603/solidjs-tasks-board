@@ -1,9 +1,30 @@
-import { Show } from 'solid-js';
+import { Show, onCleanup, onMount } from 'solid-js';
 import { ErrorBoundary } from './components/Layout/ErrorBoundary';
-import { authState } from './stores/authStore';
+import { authState, initAuth } from './stores/authStore';
 import { MainLayout } from './components/Layout/MainLayout';
 
 function App() {
+  // Initialize auth on mount
+  onMount(() => {
+    const cleanup = initAuth();
+
+    onCleanup(() => {
+      cleanup();
+    });
+  });
+
+  // Fallback: If initialization takes too long, retry
+  onMount(() => {
+    const timeout = setTimeout(() => {
+      if (!authState.initialized) {
+        console.warn('[App] Auth initialization timeout, retrying...');
+        initAuth();
+      }
+    }, 5000);
+
+    return () => clearTimeout(timeout);
+  });
+
   return (
     <ErrorBoundary>
       <Show

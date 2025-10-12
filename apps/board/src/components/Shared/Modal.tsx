@@ -3,6 +3,7 @@ import { Portal } from 'solid-js/web';
 import { Motion } from 'solid-motionone';
 import { X } from 'lucide-solid';
 import { Button } from './Button';
+import { useClickOutside } from '../../hooks/useClickOutside';
 import styles from '../../styles/components/Modal.module.css';
 
 export interface ModalProps {
@@ -57,6 +58,8 @@ export const Modal = (props: ModalProps) => {
   const closeOnBackdropClick = () => props.closeOnBackdropClick ?? true;
   const closeOnEscape = () => props.closeOnEscape ?? true;
 
+  let modalRef: HTMLDivElement | undefined;
+
   // Compute modal container classes
   const containerClass = () => {
     const classes = [styles.container];
@@ -96,11 +99,15 @@ export const Modal = (props: ModalProps) => {
     });
   });
 
-  const handleBackdropClick = (e: MouseEvent) => {
-    if (closeOnBackdropClick() && e.target === e.currentTarget) {
-      props.onClose();
-    }
-  };
+  // Handle click outside modal to close
+  useClickOutside({
+    refs: () => modalRef,
+    onClickOutside: () => {
+      if (props.isOpen && closeOnBackdropClick()) {
+        props.onClose();
+      }
+    },
+  });
 
   return (
     <Show when={props.isOpen}>
@@ -112,16 +119,15 @@ export const Modal = (props: ModalProps) => {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.25 }}
-          onClick={handleBackdropClick}
         >
           {/* Modal Container */}
           <Motion.div
+            ref={modalRef}
             class={containerClass()}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25 }}
-            onClick={(e) => e.stopPropagation()}
           >
             {/* Header */}
             <Show when={props.title ?? showCloseButton()}>

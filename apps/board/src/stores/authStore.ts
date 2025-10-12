@@ -1,5 +1,4 @@
 import { createStore } from 'solid-js/store';
-import { createEffect, onCleanup } from 'solid-js';
 import { supabase } from '../lib/supabase';
 import type { AuthChangeEvent, Session, User } from '@supabase/supabase-js';
 import type { Profile } from '../types';
@@ -24,8 +23,16 @@ export const [authState, setAuthState] = createStore<AuthState>({
 
 // Initialize auth state and listen for changes
 let authSubscription: { data: { subscription: { unsubscribe: () => void } } } | null = null;
+let isInitializing = false;
 
 const initializeAuth = async () => {
+  // Prevent multiple simultaneous initializations
+  if (isInitializing) {
+    return;
+  }
+
+  isInitializing = true;
+
   try {
     // Get initial session
     const {
@@ -50,38 +57,54 @@ const initializeAuth = async () => {
       error: null,
     });
   } catch (error) {
-    console.error('Auth initialization error:', error);
+    console.error('[Auth] Initialization error:', error);
     setAuthState({
       loading: false,
       initialized: true,
       error: error instanceof Error ? error.message : 'Failed to initialize auth',
     });
+  } finally {
+    isInitializing = false;
   }
 };
 
 // Load user profile from database
 const loadUserProfile = async (userId: string) => {
   try {
-    const { data, error } = await supabase.from('profiles').select('*').eq('id', userId).single();
+    // Add timeout to prevent hanging
+    const timeoutPromise = new Promise((_, reject) => {
+      setTimeout(() => reject(new Error('Profile load timeout')), 3000);
+    });
+
+    const profilePromise = supabase.from('profiles').select('*').eq('id', userId).single();
+
+    const result = (await Promise.race([profilePromise, timeoutPromise])) as Awaited<
+      typeof profilePromise
+    >;
+
+    const { data, error } = result;
 
     if (error) {
-      throw error;
+      console.error('[Auth] Profile load error:', error);
+      return;
     }
 
     setAuthState('profile', data);
   } catch (error) {
-    console.error('Error loading profile:', error);
+    console.error('[Auth] Profile load error:', error);
+    // Don't throw - allow auth to continue even if profile fails
   }
 };
 
 // Handle auth state changes
-const handleAuthChange = async (event: AuthChangeEvent, session: Session | null) => {
-  console.info('Auth event:', event);
+const handleAuthChange = async (_event: AuthChangeEvent, session: Session | null) => {
+  // Skip ALL events if we're currently initializing to avoid race conditions
+  if (isInitializing) {
+    return;
+  }
 
   if (session?.user) {
     await loadUserProfile(session.user.id);
-
-    // Update user presence to online
     await updateUserPresence(session.user.id, 'online');
   } else {
     setAuthState('profile', null);
@@ -112,20 +135,24 @@ const updateUserPresence = async (
   }
 };
 
-// Initialize on mount
-createEffect(() => {
-  void initializeAuth();
-
+// Initialize on mount - should be called from a component
+const setupAuthListener = () => {
   // Subscribe to auth changes
   authSubscription = supabase.auth.onAuthStateChange(handleAuthChange);
 
-  // Cleanup on unmount
-  onCleanup(() => {
+  return () => {
     if (authSubscription) {
       authSubscription.data.subscription.unsubscribe();
+      authSubscription = null;
     }
-  });
-});
+  };
+};
+
+// Export functions for setup
+export const initAuth = () => {
+  void initializeAuth();
+  return setupAuthListener();
+};
 
 // Auth Actions
 export const authActions = {
@@ -208,12 +235,13 @@ export const authActions = {
         throw error;
       }
 
-      // Clear state
+      // Clear state but keep initialized true
       setAuthState({
         user: null,
         session: null,
         profile: null,
         loading: false,
+        initialized: true,
       });
 
       return { error: null };
