@@ -1,0 +1,65 @@
+{
+  "name": "SolidJS Frontend (Node 22 + PNPM)",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:22-bullseye",
+  "features": {
+    "ghcr.io/devcontainers/features/git:1": {},
+    "ghcr.io/devcontainers/features/node:1": {"version": "22"}
+  },
+
+  // Ensure container user matches host for permissions
+  "remoteUser": "node",
+  "updateRemoteUserUID": true,
+
+  // Set workspace mount path
+  "workspaceFolder": "/workspace",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached",
+
+  // Environment variables for consistency
+  "containerEnv": {
+    "NODE_ENV": "development",
+    "BROWSER": "none"
+  },
+
+  // Automatically forward Vite/SolidJS dev server port
+  "forwardPorts": [3000, 5173],
+  "portsAttributes": {
+    "3000": {
+      "label": "SolidJS App",
+      "visibility": "public"
+    },
+    "5173": {
+      "label": "Vite Dev",
+      "visibility": "public"
+    }
+  },
+
+  // Ensure pnpm is installed and ready
+  "postCreateCommand": "corepack enable && corepack prepare pnpm@latest --activate && pnpm install",
+
+  // Recommended VS Code extensions and settings
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "svelte.svelte-vscode",
+        "esbenp.prettier-vscode",
+        "dbaeumer.vscode-eslint",
+        "yoavbls.pretty-ts-errors"
+      ],
+      "settings": {
+        "editor.formatOnSave": true,
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "eslint.packageManager": "pnpm",
+        "npm.packageManager": "pnpm",
+        "files.eol": "\n"
+      }
+    }
+  },
+
+  // Persist pnpm store across rebuilds for speed
+  "mounts": [
+    "source=pnpm-store,target=/home/vscode/.local/share/pnpm/store,type=volume"
+  ],
+
+  // Helpful for multi-container setups later
+  "runArgs": ["--init"]
+}

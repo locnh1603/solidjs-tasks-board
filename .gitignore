@@ -45,3 +45,4 @@ node_modules/
 # Turbo
 .turbo/
 turbo.log
+.pnpm-store/
