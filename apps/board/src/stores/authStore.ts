@@ -40,18 +40,28 @@ const initializeAuth = async () => {
       error,
     } = await supabase.auth.getSession();
 
-    if (error) {
-      throw error;
+    if (error || !session?.user) {
+      // Session refresh failed or no valid session: reset to non-login state
+      let errorMessage = null;
+      if (error) {
+        errorMessage = error instanceof Error ? error.message : 'Failed to initialize auth';
+      }
+      setAuthState({
+        user: null,
+        session: null,
+        profile: null,
+        loading: false,
+        initialized: true,
+        error: errorMessage,
+      });
+      return;
     }
 
-    if (session?.user) {
-      // Load user profile
-      await loadUserProfile(session.user.id);
-    }
-
+    // Valid session: load user profile
+    await loadUserProfile(session.user.id);
     setAuthState({
-      user: session?.user ?? null,
-      session: session ?? null,
+      user: session.user,
+      session,
       loading: false,
       initialized: true,
       error: null,
@@ -59,6 +69,9 @@ const initializeAuth = async () => {
   } catch (error) {
     console.error('[Auth] Initialization error:', error);
     setAuthState({
+      user: null,
+      session: null,
+      profile: null,
       loading: false,
       initialized: true,
       error: error instanceof Error ? error.message : 'Failed to initialize auth',
